@@ -1,59 +1,93 @@
-import { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.css'
-type EstudanteType = {
+import api from './api/api'
+type ProdutoType = {
   _id: string,
   nome: string,
-  idade: number
+  preco: number,
+  descricao: string,
+  urlfoto: string
 }
 function App() {
   useEffect(() => {
-    fetch("/api/estudantes")
-      .then((response) => response.json())
-      .then((dados) => setEstudantes(dados))
+    api.get("/produtos")
+      .then((response) => setProdutos(response.data))
+      .catch((error) => {
+        if (error.response) {
+          console.error(`Servidor respondeu mas com o erro:${error.response.data.mensagem ?? error.response.data}`)
+          alert(`Servidor respondeu mas com o erro:${error.response.data.mensagem
+            ?? " olhe o console do navegador para mais informações"}"`)
+        }
+        else { //Não teve resposta do servidor, então mostramos o erro do axios.
+          console.error(`Erro Axios: ${error.message}`)
+          alert(`Servidor não respondeu, você ligou o backend? Erro do Axios: ${error.message ?? "Erro desconhecido: Chame o TERE"}`)
+        }
+      })
   }, [])
-  const [estudantes, setEstudantes] = useState<EstudanteType[]>([])
-  const [nome, SetNome] = useState("")
-  const [idade, SetIdade] = useState(0)
+  const [produtos, setProdutos] = useState<ProdutoType[]>([])
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    const estudante = { nome, idade }
-    fetch("/api/estudantes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(estudante)
-    })
-      .then((response) => response.json())
-      .then((dados) => {
-        setEstudantes([...estudantes, dados])
-        SetNome("")
-        SetIdade(0)
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+    const nome = formData.get("nome")
+    const preco = formData.get("preco")
+    const descricao = formData.get("descricao")
+    const urlfoto = formData.get("urlfoto")
+    const produto = { nome, preco, descricao, urlfoto }
+    api.post("/produtos", produto)
+      .then((response) => setProdutos([...produtos, response.data]))
+      .catch((error) => {
+        if (error.response) {
+          console.error(`Servidor respondeu mas com o erro:${error.response.data.mensagem ?? error.response.data}`)
+          alert(`Servidor respondeu mas com o erro:${error.response.data.mensagem
+            ?? " olhe o console do navegador para mais informações"}"`)
+        }
+        else { //Não teve resposta do servidor, então mostramos o erro do axios.
+          console.error(`Erro Axios: ${error.message}`)
+          alert(`Servidor não respondeu, você ligou o backend? Erro do Axios: ${error.message ?? "Erro desconhecido: Chame o TERE"}`)
+        }
+      })
+  }
+  function adicionarItemCarrinho(produtoId: string) {
+    api.post("/adicionarItem", { produtoId, quantidade: 1 })
+      .then(() => alert("Produto adicionado com sucesso!"))
+      .catch((error) => {
+        if (error.response) {
+          console.error(`Servidor respondeu mas com o erro:${error.response.data.mensagem ?? error.response.data}`)
+          alert(`Servidor respondeu mas com o erro:${error.response.data.mensagem
+            ?? " olhe o console do navegador para mais informações"}"`)
+        }
+        else { //Não teve resposta do servidor, então mostramos o erro do axios.
+          console.error(`Erro Axios: ${error.message}`)
+          alert(`Servidor não respondeu, você ligou o backend? Erro do Axios: ${error.message ?? "Erro desconhecido: Chame o TERE"}`)
+        }
       })
   }
 
   return (
     <>
-      <h1>Cadastro de Estudantes</h1>
+      <h1>Cadastro de Produtos</h1>
       <form onSubmit={handleSubmit}>
-        <input type="text" placeholder="Nome" value={nome}
-          onChange={(e) => SetNome(e.target.value)} />
+        {/* {nome,preco,descricao,urlfoto} */}
+        <input type="text" placeholder='Nome' name="nome" />
+        <input type="number" placeholder='Preço' name="preco" />
+        <input type="text" placeholder='Descrição' name="descricao" />
+        <input type="text" placeholder='URL Foto' name="urlfoto" />
 
-        <input type="number" placeholder="Idade" value={idade}
-          onChange={(e) => SetIdade(Number(e.target.value))} />
-
-        <button type="submit">Cadastrar</button>
+        <button type='submit'>Cadastrar</button>
       </form>
 
-      <h1>Lista de estudantes</h1>
-      <div className="container-estudantes">
+      <h1>Lista de produtos</h1>
+      <div className="container-produtos">
         {
-          estudantes.map((estudante) => {
+          produtos.map((produto) => {
             return (
-              <div key={estudante._id}>
-                <h2>{estudante.nome}</h2>
-                <p>Idade: {estudante.idade}</p>
+              <div key={produto._id}>
+                <h2>{produto.nome}</h2>
+                <img src={produto.urlfoto} alt='Imagem do produto' />
+                <p>Preço: {produto.preco}</p>
+                <p>Descrição: {produto.descricao}</p>
+                <button onClick={() => adicionarItemCarrinho(produto._id)}>Adicionar ao carrinho</button>
               </div>
             )
           })
