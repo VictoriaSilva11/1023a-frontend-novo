@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
 import api from './api/api'
+
+// Importação das páginas
+import login from "./pages/login";
+import logout from "./pages/logout";
+import Home from "./pages/Home";
+
 type ProdutoType = {
   _id: string,
   nome: string,
@@ -98,3 +104,11 @@ function App() {
 }
 
 export default App
+
+
+
+
+
+
+
+

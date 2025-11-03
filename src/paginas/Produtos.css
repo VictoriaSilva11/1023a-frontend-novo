@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond&family=Playfair+Display&display=swap');
+
+:root {
+    --fonte-principal: 'EB Garamond', serif;
+    --cor-texto: #111111cf;
+    --cor-fundo: white;
+    --cor-destaque: #f3efe9;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    background: var(--cor-fundo);
+    font-family: var(--fonte-principal);
+    color: var(--cor-texto);
+}
+
+/* Imagem destaque */
+.imagem-section {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.imagem-section img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Sessão dos livros */
+.livros {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding: 60px 20px;
+    background: white;
+}
+
+.card {
+    background-color: var(--cor-destaque);
+    border-radius: 16px;
+    overflow: hidden;
+    width: 280px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.card img {
+    width: 100%;
+    height: 420px;
+}
+
+.card h3 {
+    margin: 15px 0 5px;
+    color: var(--cor-texto);
+}
+
+.card p {
+    margin-bottom: 15px;
+    color: var(--cor-texto);
+}

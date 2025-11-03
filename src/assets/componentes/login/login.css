@@ -1,0 +1,101 @@
+/* --- Estilos do Login --- */
+
+/* Usamos um container para centralizar o formulário na página,
+  seguindo o padrão de conteúdo centralizado do seu CSS base (como .autores).
+*/
+.login-container {
+  max-width: 420px; /* Largura definida para o formulário */
+  margin: 60px auto; /* Centraliza horizontalmente com margem no topo/base */
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte do CSS base */
+}
+
+/*
+  Estiliza o <form> para parecer um .card do seu CSS base:
+  fundo branco, bordas arredondadas e sombra.
+*/
+.login-container form {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Espaçamento entre os inputs, similar ao .cards */
+}
+
+/* Estilo opcional para um título dentro do formulário,
+  baseado no h2 de .autores.
+*/
+.login-container h2 {
+  font-size: 2rem;
+  margin: 0 0 10px 0; /* Menos margem para ficar dentro do card */
+  color: #333;
+  text-align: center;
+}
+
+/* Estilo para os inputs de texto e senha.
+  Bordas sutis e padding para uma boa aparência.
+*/
+.login-container input[type="text"],
+.login-container input[type="password"] {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #333;
+  border: 1px solid #ddd; /* Cor da borda sutil, como em .card img */
+  border-radius: 8px;
+  box-sizing: border-box; /* Garante que o padding não quebre o layout */
+}
+
+.login-container input[type="text"]::placeholder,
+.login-container input[type="password"]::placeholder {
+  color: #999; /* Cor de placeholder um pouco mais clara */
+}
+
+/* Efeito de foco para dar feedback ao usuário */
+.login-container input[type="text"]:focus,
+.login-container input[type="password"]:focus {
+  outline: none;
+  border-color: #555;
+  box-shadow: 0 0 5px rgba(50, 50, 93, 0.1);
+}
+
+/* Estilo para o botão de submit, usando as cores
+  escuras do .banner como cor primária.
+*/
+.login-container input[type="submit"] {
+  background-color: #222; /* Cor de fundo do .banner */
+  color: #fff; /* Cor do texto do .banner */
+  font-family: inherit;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+/* Efeito de hover similar ao .card:hover, mas para o botão.
+*/
+.login-container input[type="submit"]:hover {
+  background-color: #3a3a3a; /* Um pouco mais claro que #222 */
+  transform: translateY(-2px);
+}
+
+/*
+  Estilo para a mensagem de erro (o <p> que recebe a 'mensagem').
+  Usa cores de alerta (vermelho) para se destacar.
+*/
+.login-container .mensagem-erro {
+  background-color: #fff0f0; /* Fundo vermelho bem claro */
+  color: #d93030; /* Texto vermelho escuro */
+  border: 1px solid #f9c0c0; /* Borda vermelha clara */
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.95rem;
+  margin-bottom: 20px; /* Espaçamento antes do formulário */
+}

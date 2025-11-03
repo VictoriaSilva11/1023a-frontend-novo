@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond&family=Playfair+Display&display=swap');
+
+:root {
+    --fonte-principal: 'EB Garamond', serif;
+    --cor-texto: #111111cf;
+    --cor-fundo: white;
+    --cor-destaque: #f3efe9;
+}
+
+.cabecalho {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    padding: 30px 0;
+    font-size: 36px;
+    z-index: 2;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: var(--cor-destaque);
+}
+
+.logo a{
+    text-decoration: none;
+    color: inherit ;
+    font-size: 40px;
+    letter-spacing: 5px;
+}
+
+.menu a{
+    margin-top: 10px;
+}
+
+.menu a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: var(--cor-destaque);
+    font-size: 16px;
+    transition: opacity 0.7s;
+}
+
+.menu a:hover {
+    opacity: 0.6;
+}
