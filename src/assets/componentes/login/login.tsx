@@ -1,5 +1,6 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
-import api from "../../api/api";
+import api from "../../../api/api";
+import "./login.css"; 
 
 function Login() {
     const [searchParams] = useSearchParams();
@@ -15,11 +16,8 @@ function Login() {
         api.post("/login", { email, senha })
             .then((response) => {
                 if (response.status === 200) {
-                    // 🔹 Aqui salvamos o token e o tipo de usuário
                     localStorage.setItem("token", response.data.token);
                     localStorage.setItem("tipoUsuario", response.data.tipoUsuario);
-
-                    // Redireciona para a home
                     navigate("/");
                 }
             })
@@ -32,15 +30,21 @@ function Login() {
     }
 
     return (
-        <>
-            {mensagem && <p>{mensagem}</p>}
+        <div className="login-container">
             <form onSubmit={handleForm}>
+                <h2>Login</h2>
+
+                {mensagem && (
+                    <div className="mensagem-erro">
+                        {mensagem}
+                    </div>
+                )}
+
                 <input type="text" name="email" placeholder="Email" />
                 <input type="password" name="senha" placeholder="Senha" />
-                <input type="submit" value="Logar" />
-
+                <input type="submit" value="Entrar" />
             </form>
-        </>
+        </div>
     );
 }
 
