@@ -29,6 +29,7 @@ function App() {
           alert(`Servidor não respondeu, você ligou o backend? Erro do Axios: ${error.message ?? "Erro desconhecido: Chame o TERE"}`)
         }
       })
+     
   }, [])
   const [produtos, setProdutos] = useState<ProdutoType[]>([])
 
