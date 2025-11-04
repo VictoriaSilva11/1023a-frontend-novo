@@ -1,101 +1,142 @@
-/* --- Estilos do Login --- */
+/* --- Estilos do Login (Tema Roxo/Ciano) --- */
 
-/* Usamos um container para centralizar o formulário na página,
-  seguindo o padrão de conteúdo centralizado do seu CSS base (como .autores).
+/* Importa a mesma fonte do Carrinho */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/*
+Opcional: Se este CSS for global, o 'body' já estará
+estilizado. Se for específico do Login, repita o 'body':
 */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #1a001a;
+  color: #f0f0f0;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* O container que centraliza o formulário */
 .login-container {
-  max-width: 420px; /* Largura definida para o formulário */
-  margin: 60px auto; /* Centraliza horizontalmente com margem no topo/base */
+  max-width: 420px;
+  margin: 60px auto;
   padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte do CSS base */
+  font-family: 'Poppins', sans-serif;
+  /* Garante a fonte */
 }
 
 /*
-  Estiliza o <form> para parecer um .card do seu CSS base:
-  fundo branco, bordas arredondadas e sombra.
+Estiliza o <form> para parecer o .carrinho-container
 */
 .login-container form {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #300030;
+  /* Fundo roxo do carrinho */
+  border-radius: 12px;
+  /* Borda do carrinho */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  /* Sombra do carrinho */
   padding: 40px;
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Espaçamento entre os inputs, similar ao .cards */
+  gap: 20px;
 }
 
-/* Estilo opcional para um título dentro do formulário,
-  baseado no h2 de .autores.
-*/
+/* Estilo para um título dentro do formulário */
 .login-container h2 {
-  font-size: 2rem;
-  margin: 0 0 10px 0; /* Menos margem para ficar dentro do card */
-  color: #333;
+  font-size: 2.2em;
+  margin: 0 0 10px 0;
+  color: #70F8E8;
+  /* Cor de destaque ciano */
   text-align: center;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  position: relative;
 }
 
-/* Estilo para os inputs de texto e senha.
-  Bordas sutis e padding para uma boa aparência.
-*/
+/* Detalhe sublinhado (igual ao carrinho) */
+.login-container h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background-color: #70F8E8;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+/* Estilo para os inputs de texto e senha */
 .login-container input[type="text"],
 .login-container input[type="password"] {
   width: 100%;
   padding: 12px 15px;
   font-size: 1rem;
   font-family: inherit;
-  color: #333;
-  border: 1px solid #ddd; /* Cor da borda sutil, como em .card img */
+  color: #f0f0f0;
+  /* Texto claro */
+  background-color: #3a003a;
+  /* Fundo de item do carrinho */
+  border: 1px solid #4a004a;
+  /* Borda de item do carrinho */
   border-radius: 8px;
-  box-sizing: border-box; /* Garante que o padding não quebre o layout */
+  box-sizing: border-box;
+  /* Garante que o padding não quebre o layout */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .login-container input[type="text"]::placeholder,
 .login-container input[type="password"]::placeholder {
-  color: #999; /* Cor de placeholder um pouco mais clara */
+  color: #a0a0a0;
+  /* Placeholder mais claro */
 }
 
-/* Efeito de foco para dar feedback ao usuário */
+/* Efeito de foco com a cor de destaque */
 .login-container input[type="text"]:focus,
 .login-container input[type="password"]:focus {
   outline: none;
-  border-color: #555;
-  box-shadow: 0 0 5px rgba(50, 50, 93, 0.1);
+  border-color: #70F8E8;
+  /* Borda ciano ao focar */
+  box-shadow: 0 0 8px rgba(112, 248, 232, 0.3);
+  /* Brilho ciano */
 }
 
-/* Estilo para o botão de submit, usando as cores
-  escuras do .banner como cor primária.
-*/
+/* Estilo para o botão de submit (Logar) */
 .login-container input[type="submit"] {
-  background-color: #222; /* Cor de fundo do .banner */
-  color: #fff; /* Cor do texto do .banner */
+  background-color: #70F8E8;
+  /* Fundo ciano (igual .btn-excluir) */
+  color: #300030;
+  /* Texto roxo (igual .btn-excluir) */
   font-family: inherit;
-  font-size: 1.1rem;
-  font-weight: 600;
-  padding: 12px 20px;
+  font-size: 1.15em;
+  font-weight: 700;
+  padding: 16px 20px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-top: 15px;
+  /* Espaçamento extra */
 }
 
-/* Efeito de hover similar ao .card:hover, mas para o botão.
-*/
+/* Efeito de hover (igual .btn-excluir) */
 .login-container input[type="submit"]:hover {
-  background-color: #3a3a3a; /* Um pouco mais claro que #222 */
+  background-color: #a0ffef;
   transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(112, 248, 232, 0.4);
 }
 
-/*
-  Estilo para a mensagem de erro (o <p> que recebe a 'mensagem').
-  Usa cores de alerta (vermelho) para se destacar.
-*/
+/* Estilo para a mensagem de erro (tema escuro) */
 .login-container .mensagem-erro {
-  background-color: #fff0f0; /* Fundo vermelho bem claro */
-  color: #d93030; /* Texto vermelho escuro */
-  border: 1px solid #f9c0c0; /* Borda vermelha clara */
+  background-color: #5d001a;
+  /* Fundo vermelho escuro/vinho */
+  color: #ffc0c0;
+  /* Texto vermelho claro */
+  border: 1px solid #f9c0c0;
   padding: 15px;
   border-radius: 8px;
   text-align: center;
   font-size: 0.95rem;
-  margin-bottom: 20px; /* Espaçamento antes do formulário */
+  margin-bottom: 20px;
+  /* Espaçamento antes do formulário */
 }

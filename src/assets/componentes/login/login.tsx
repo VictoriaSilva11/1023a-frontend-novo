@@ -30,7 +30,7 @@ function Login() {
                 navigate(`/login?mensagem=${encodeURIComponent(msg)}`);
             });
     }
-          
+
     return (
         <>
             {mensagem && <p>{mensagem}</p>}
@@ -38,7 +38,7 @@ function Login() {
                 <input type="text" name="email" placeholder="Email" />
                 <input type="password" name="senha" placeholder="Senha" />
                 <input type="submit" value="Logar" />
-                
+
             </form>
         </>
     );
