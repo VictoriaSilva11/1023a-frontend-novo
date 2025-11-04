@@ -1,44 +1,97 @@
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond&family=Playfair+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
 
 :root {
-    --fonte-principal: 'EB Garamond', serif;
-    --cor-texto: #111111cf;
-    --cor-fundo: white;
-    --cor-destaque: #f3efe9;
+  --cor-verde-escuro: #311b33;
+  --cor-verde-claro: #d249ee;
+  --cor-areia: #C7A5E0;
+  --cor-marrom-claro: #6f54d3;
+  --cor-branco: #ffffff;
+  --fonte-titulo: 'Playfair Display', serif;
+  --fonte-corpo: 'Georgia', serif;
 }
 
 .cabecalho {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    text-align: center;
-    padding: 30px 0;
-    font-size: 36px;
-    z-index: 2;
-    font-weight: 400;
-    letter-spacing: 2px;
-    color: var(--cor-destaque);
+  background-color: var(--cor-areia);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  border-bottom: 2px solid var(--cor-verde-escuro);
+  font-family: var(--fonte-titulo);
+  position: fixed; /* fixa no topo */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.logo a{
-    text-decoration: none;
-    color: inherit ;
-    font-size: 40px;
-    letter-spacing: 5px;
+.logotipo {
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--cor-verde-escuro);
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.menu a{
-    margin-top: 10px;
+.logo-imagem {
+  height: 60px;
+  width: auto;
+  vertical-align: middle;
 }
 
-.menu a {
-    margin: 0 15px;
-    text-decoration: none;
-    color: var(--cor-destaque);
-    font-size: 16px;
-    transition: opacity 0.7s;
+.logotipo a {
+  text-decoration: none;
+  color: var(--cor-verde-escuro);
+  font-weight: bold;
+  transition: color 0.3s;
 }
 
-.menu a:hover {
-    opacity: 0.6;
+.navegacao ul {
+  display: flex;
+  list-style: none;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+
+.navegacao a {
+  text-decoration: none;
+  color: var(--cor-verde-escuro);
+  font-weight: 600;
+  font-size: 16px;
+  transition: color 0.3s, border-bottom 0.3s;
+}
+
+.navegacao a:hover {
+  color: var(--cor-marrom-claro);
+  border-bottom: 2px solid var(--cor-marrom-claro);
+}
+
+/* adiciona espaço no topo de todas as páginas para não esconder o conteúdo */
+body {
+  margin: 0;
+  padding-top: 100px; /* altura do header */
+  background-color: var(--cor-areia);
+}
+
+@media (max-width: 768px) {
+  .cabecalho {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 30px;
+  }
+
+  .navegacao ul {
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 20px;
+  }
+}
+.logo-imagem {
+  height: 60px;
+  width: auto;
+  vertical-align: middle;
 }

@@ -1,6 +1,6 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import api from "../../../api/api";
-import "./login.css"; 
+import "./login.css";
 
 function Login() {
     const [searchParams] = useSearchParams();
@@ -45,7 +45,10 @@ function Login() {
                 <input type="submit" value="Entrar" />
             </form>
         </div>
+        
     );
 }
+
+
 
 export default Login;

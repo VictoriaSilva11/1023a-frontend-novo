@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
 body {
   font-family: 'Poppins', sans-serif;
   background: radial-gradient(circle at top, #3b003b, #1a001a);
@@ -7,6 +5,7 @@ body {
   margin: 0;
   padding: 0;
 }
+
 
 .login-container {
   max-width: 420px;
@@ -95,5 +94,83 @@ body {
   padding: 14px;
   border-radius: 8px;
   text-align: center;
+  font-size: 0.95rem;
+}
+
+/* Estilo geral */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+/* Banner de boas-vindas */
+.banner {
+  background-color: #222;
+  color: #fff;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.banner h1 {
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+/* Seção de autores */
+.autores {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.autores h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Cards de autores */
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 20px;
+  width: 220px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* Imagem do autor */
+.card img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 15px;
+  border: 3px solid #ddd;
+}
+
+/* Texto */
+.card h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.card p {
+  color: #777;
   font-size: 0.95rem;
 }
