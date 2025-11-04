@@ -1,0 +1,316 @@
+/* Importar uma fonte similar usada no 44books, por exemplo, Poppins ou Open Sans */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    /* Fonte moderna e legível */
+    background-color: #1a001a;
+    /* Um roxo bem escuro, levemente mais claro que o #300030 para o fundo */
+    color: #f0f0f0;
+    /* Texto claro para o fundo escuro */
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+.carrinho-container {
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 35px;
+    background-color: #300030;
+    /* Fundo principal do container é o roxo escuro */
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    /* Sombra mais intensa para o fundo escuro */
+    color: #f0f0f0;
+    /* Cor do texto geral no container */
+}
+
+.carrinho-container h2 {
+    text-align: center;
+    font-size: 2.2em;
+    color: #70F8E8;
+    /* Título com a cor ciano/verde-água */
+    margin-bottom: 35px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    position: relative;
+}
+
+.carrinho-container h2::after {
+    /* Detalhe sublinhado no título */
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: #70F8E8;
+    /* Sublinhado com a cor ciano/verde-água */
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+.carrinho-container ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 30px;
+}
+
+.carrinho-container ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 10px;
+    margin-bottom: 10px;
+    background-color: #3a003a;
+    /* Fundo levemente mais claro para cada item */
+    border-radius: 8px;
+    border: 1px solid #4a004a;
+    /* Borda sutil em tom mais claro de roxo */
+    font-size: 1.05em;
+    color: #e0e0e0;
+    /* Cor do texto dos itens */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.carrinho-container ul li:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.carrinho-container ul li span:first-child {
+    font-weight: 500;
+    color: #f8f8f8;
+    /* Nome do item mais claro */
+}
+
+.carrinho-container ul li span:last-child {
+    font-weight: 600;
+    color: #70F8E8;
+    /* Preço com a cor ciano/verde-água */
+    margin-left: 20px;
+}
+
+.carrinho-container p strong {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.6em;
+    color: #70F8E8;
+    /* Total com a cor ciano/verde-água */
+    margin-top: 35px;
+    padding: 20px 10px;
+    border-top: 2px solid #4a004a;
+    /* Linha de separação em roxo claro */
+    font-weight: 700;
+    background-color: #3a003a;
+    /* Fundo suave para o total */
+    border-radius: 8px;
+}
+
+.btn-excluir {
+    display: block;
+    width: 100%;
+    background-color: #f74747;
+    /* Botão de exclusão com a cor ciano/verde-água */
+    color: #300030;
+    /* Texto do botão em roxo escuro para contraste */
+    border: none;
+    padding: 16px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.15em;
+    font-weight: 700;
+    /* Negrito para destaque */
+    margin-top: 35px;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    letter-spacing: 0.8px;
+    /* Mais espaçamento para o texto */
+    text-transform: uppercase;
+}
+
+.btn-excluir:hover {
+    background-color: #a0ffef;
+    /* Ciano/verde-água mais claro no hover */
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(112, 248, 232, 0.4);
+    /* Sombra com a cor de destaque */
+}
+
+/* ADIÇÕES PARA OS NOVOS ELEMENTOS */
+
+.carrinho-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #4a004a;
+}
+
+.lista-itens h3 {
+    color: #70F8E8;
+    font-size: 1.4em;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.item-carrinho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 15px;
+    background-color: #3a003a;
+    border-radius: 8px;
+    border: 1px solid #4a004a;
+    transition: all 0.3s ease;
+}
+
+.item-carrinho:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.info-produto {
+    flex: 1;
+}
+
+.info-produto strong {
+    font-size: 1.2em;
+    color: #f8f8f8;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.detalhes-produto span {
+    display: block;
+    margin-bottom: 4px;
+    color: #e0e0e0;
+    font-size: 0.95em;
+}
+
+.subtotal {
+    font-weight: 600;
+    color: #70F8E8 !important;
+    font-size: 1em !important;
+}
+
+.btn-atualizar {
+    background-color: #4a86e8;
+    /* Azul para o botão de atualizar */
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-atualizar:hover {
+    background-color: #6fa3ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 134, 232, 0.4);
+}
+
+.btn-remover-item {
+    background-color: #e84a5f;
+    /* Vermelho/rosa para remover item */
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 15px;
+}
+
+.btn-remover-item:hover {
+    background-color: #ff6b7f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(232, 74, 95, 0.4);
+}
+
+.carrinho-footer {
+    border-top: 2px solid #4a004a;
+    padding-top: 25px;
+    margin-top: 30px;
+}
+
+.total {
+    font-size: 1.8em;
+    color: #8c9aeb;
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 700;
+    background-color: #3a0353;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.botoes-acao {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.btn-excluir-carrinho {
+    background-color: #e84a5f;
+    /* Vermelho/rosa para excluir carrinho */
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.btn-excluir-carrinho:hover {
+    background-color: #ff6b7f;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(232, 74, 95, 0.4);
+}
+
+/* rayka */
+@media (max-width: 768px) {
+    .carrinho-container {
+        margin: 20px auto;
+        padding: 25px 20px;
+    }
+    
+    .carrinho-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .item-carrinho {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .btn-remover-item {
+        margin-left: 0;
+        align-self: flex-end;
+    }
+    
+    .botoes-acao {
+        flex-direction: column;
+    }
+    
+    .btn-atualizar, .btn-excluir-carrinho {
+        width: 100%;
+    }
+}
