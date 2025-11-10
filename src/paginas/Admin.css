@@ -1,142 +1,294 @@
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond&family=Playfair+Display&display=swap');
-
 :root {
-    --fonte-principal: 'EB Garamond', serif;
-    --cor-texto: #111111cf;
-    --cor-fundo: white;
-    --cor-destaque: #f3efe9;
+  --cor-primaria: #2c3e50;
+  --cor-secundaria: #3498db;
+  --cor-fundo: #f7f7f7;
+  --cor-branco: #ffffff;
+  --cor-cinza: #e0e0e0;
+  --cor-sombra: rgba(0, 0, 0, 0.1);
+  --fonte-titulo: 'Playfair Display', serif;
+  --fonte-corpo: 'Georgia', serif;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* Estrutura geral */
+.pagina-admin {
+  min-height: 100vh;
+  background-color: var(--cor-fundo);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
 }
 
-html,
-body {
-    width: 100%;
-    height: 100%;
-    background: var(--cor-fundo);
-    font-family: var(--fonte-principal);
-    color: var(--cor-texto);
+.conteudo-principal {
+  max-width: 1200px;
+  width: 100%;
+  background-color: var(--cor-branco);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px var(--cor-sombra);
+  padding: 40px;
 }
 
-.imagem-section {
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
+.conteudo-principal h1 {
+  font-family: var(--fonte-titulo);
+  font-size: 34px;
+  text-align: center;
+  color: var(--cor-primaria);
+  margin-bottom: 30px;
+  border-bottom: 2px solid var(--cor-secundaria);
+  padding-bottom: 10px;
 }
 
-.imagem-section img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+/* Seção de resumo */
+.resumo-admin {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 40px;
 }
 
-/* Estilos para a seção de administração */
-h2 {
-    margin: 40px 0 20px;
-    text-align: center;
-    font-size: 2rem;
-    color: var(--cor-texto);
+.card-info {
+  background-color: var(--cor-secundaria);
+  color: var(--cor-branco);
+  border-radius: 12px;
+  padding: 25px 35px;
+  text-align: center;
+  box-shadow: 0 3px 10px var(--cor-sombra);
+  transition: transform 0.2s;
 }
 
-.formulario {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-    margin: 20px auto;
-    padding: 20px;
-    max-width: 900px;
-    background-color: var(--cor-destaque);
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.card-info:hover {
+  transform: scale(1.05);
 }
 
-.formulario input,
-.formulario select {
-    padding: 10px 15px;
-    border: 1px solid var(--cor-borda);
-    border-radius: 4px;
-    font-family: var(--fonte-principal);
-    font-size: 1rem;
-    min-width: 200px;
+.card-info h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
 }
 
-.formulario button {
-    padding: 10px 20px;
-    background-color: var(--cor-botao);
-    color: rgb(0, 0, 0);
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: var(--fonte-principal);
-    font-size: 1rem;
-    transition: background-color 0.3s;
+.card-info p {
+  font-size: 26px;
+  font-weight: bold;
 }
 
-.formulario button:hover {
-    background-color: var(--cor-botao-hover);
+/* Formulário de adicionar novo produto */
+.adicionar-produto {
+  background-color: #fdfdfd;
+  border: 1px solid var(--cor-cinza);
+  border-radius: 10px;
+  padding: 25px;
+  margin-bottom: 40px;
+  box-shadow: 0 3px 10px var(--cor-sombra);
 }
 
-/* Estilos para as tabelas */
-table {
-    width: 90%;
-    margin: 30px auto;
-    border-collapse: collapse;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.adicionar-produto h2 {
+  color: var(--cor-primaria);
+  margin-bottom: 15px;
+  text-align: center;
 }
 
-th, td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid var(--cor-borda);
+.form-adicionar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 15px;
 }
 
-th {
-    background-color: var(--cor-destaque);
-    font-weight: bold;
+.form-adicionar input,
+.form-adicionar textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  font-family: var(--fonte-corpo);
 }
 
-tr:hover {
-    background-color: rgba(243, 239, 233, 0.5);
+.form-adicionar input:focus,
+.form-adicionar textarea:focus {
+  border-color: var(--cor-secundaria);
+  box-shadow: 0 0 5px var(--cor-secundaria);
 }
 
-/* Estilos para os botões de ação */
-table button {
-    padding: 6px 12px;
-    margin-right: 5px;
-    background-color: var(--cor-botao);
-    color: rgb(0, 0, 0);
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: var(--fonte-principal);
-    transition: background-color 0.3s;
+.form-adicionar button {
+  grid-column: 1 / -1;
+  padding: 12px;
+  background-color: var(--cor-secundaria);
+  color: var(--cor-branco);
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
-table button:hover {
-    background-color: var(--cor-botao-hover);
+.form-adicionar button:hover {
+  background-color: #2980b9;
+  transform: scale(1.03);
+}
+
+/* Lista de produtos */
+.grid-produtos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 25px;
+  justify-content: center;
+}
+
+.card-produto {
+  background: var(--cor-branco);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--cor-sombra);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card-produto:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-produto img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  background-color: #ddd;
+}
+
+.info {
+  padding: 15px;
+  text-align: center;
+}
+
+.info h3 {
+  font-size: 18px;
+  color: var(--cor-primaria);
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.info p {
+  font-size: 14px;
+  color: #555;
+  margin: 4px 0;
+}
+
+.info .descricao {
+  font-size: 13px;
+  color: #777;
+  margin-top: 6px;
+}
+
+/* Botões */
+.botoes-admin {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.botoes-admin button {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.botoes-admin .editar {
+  background-color: var(--cor-secundaria);
+  color: var(--cor-branco);
+}
+
+.botoes-admin .editar:hover {
+  background-color: #2e86de;
+}
+
+.botoes-admin .excluir {
+  background-color: #c0392b;
+  color: var(--cor-branco);
+}
+
+.botoes-admin .excluir:hover {
+  background-color: #e74c3c;
+}
+
+/* Formulário de edição */
+.form-edicao {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+}
+
+.form-edicao input,
+.form-edicao textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  font-family: var(--fonte-corpo);
+}
+
+.form-edicao input:focus,
+.form-edicao textarea:focus {
+  border-color: var(--cor-secundaria);
+  box-shadow: 0 0 5px var(--cor-secundaria);
+}
+
+.botoes-edicao {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.botoes-edicao button {
+  background-color: var(--cor-primaria);
+  color: var(--cor-branco);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.botoes-edicao button:hover {
+  background-color: var(--cor-secundaria);
+  transform: scale(1.05);
+}
+
+/* Erros e carregamento */
+.erro {
+  color: #b30000;
+  background-color: #ffe6e6;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
-    .formulario {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .formulario input,
-    .formulario select,
-    .formulario button {
-        width: 100%;
-    }
-    
-    table {
-        display: block;
-        overflow-x: auto;
-    }
+  .conteudo-principal {
+    padding: 25px;
+  }
+
+  .resumo-admin {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .form-adicionar {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-produtos {
+    grid-template-columns: 1fr;
+  }
 }

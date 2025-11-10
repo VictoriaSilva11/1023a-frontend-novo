@@ -17,7 +17,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/login" element={<Login />} />
         <Route path="/produtos" element={<Produtos />} />
         <Route path="/carrinho" element={<Carrinhos />} /> {}
-        <Route path="/admin" element={<Admin />} /> {}
+        <Route path="/adm" element={<Admin />} /> {}
       </Routes>
     </BrowserRouter>
   </StrictMode>

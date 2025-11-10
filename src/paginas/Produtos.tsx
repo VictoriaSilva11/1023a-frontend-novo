@@ -39,7 +39,7 @@ export default function Produtos() {
     const token = localStorage.getItem('token'); 
 
     if (!token) {
-      alert('Você precisa estar logado para adicionar produtos ao carrinho.');
+      alert('VocE precisa estar logado para adicionar produtos ao carrinho.');
       navigate('/login');
       return;
     }
@@ -62,7 +62,7 @@ export default function Produtos() {
     }
   }
 
-  // filtro por categoria (sem diferenciação de maiúsculas/minúsculas)
+  // filtro por categoria 
   const produtosFiltrados = produtos.filter((produto) =>
     produto.categoria.toLowerCase().includes(filtro.toLowerCase())
   );
