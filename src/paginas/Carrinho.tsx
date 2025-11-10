@@ -149,7 +149,7 @@ export default function Carrinhos() {
                           </p>
 
                           <button className="botao-carrinho" onClick={() => removerItem(item.produtoId)}>
-                            Remover
+                    
                           </button>
                         </div>
                       </div>
