@@ -40,7 +40,7 @@ function Home() {
 
           <section className="imagem-section">
         <img
-          src="https://www.iamag.co/wp-content/uploads/2023/01/kieran-belshaw-dragonpitentrance-frontview-v002-scaled.jpg"
+          src="https://cdn.cosmos.so/0d475c72-a6b3-4e49-bd05-c645845d0ae7?format=jpeg"
         />
       </section>
 
