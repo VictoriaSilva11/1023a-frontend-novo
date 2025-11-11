@@ -43,6 +43,7 @@ export default function Carrinhos() {
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      
       console.log('Carrinho carregado:', resposta.data);
       setCarrinho(resposta.data);
     } catch (err: any) {
