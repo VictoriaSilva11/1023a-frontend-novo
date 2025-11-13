@@ -91,29 +91,8 @@ export default function Produtos() {
 
 
     try {
-
-      await api.post(
-
-        '/carrinhos/adicionar',
-
-        {
-
-          produtoId: produto._id,
-
-          quantidade: 1,
-
-        },
-
-        {
-
-          headers: { Authorization: `Bearer ${token}` },
-
-        }
-
-      );
-
+      await api.post("/carrinho/adicionar", { produtoId: produto._id, quantidade: 1 }, { headers: { Authorization: `Bearer ${token}` } });
       alert(`${produto.nome} foi adicionado ao carrinho!`);
-
     } catch (error) {
 
       console.error(error);

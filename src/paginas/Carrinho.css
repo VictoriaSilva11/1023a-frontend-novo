@@ -1,20 +1,211 @@
-.quantidade-controle {
+:root {
+  --cor-fundo-pagina: #f5f5f5; /* Fundo bem claro, quase branco */
+  --cor-principal: #333;
+  --cor-secundaria: #777;
+  --cor-borda: #ddd;
+  --cor-botao-principal: #3a2849; /* Roxo escuro similar aos botões "Adicionar ao carrinho" */
+  --cor-botao-hover: #523a66;
+  --cor-preco: #444; /* Cor de destaque para o preço */
+  --sombra-leve: 0 1px 3px rgba(0, 0, 0, 0.05); /* Sombra sutil para "levantar" o conteúdo */
+}
+
+/* ---------------------------------- */
+/* Layout Principal - Ocupar a Tela */
+/* ---------------------------------- */
+.pagina-carrinho {
+  background-color: var(--cor-fundo-pagina);
+  min-height: calc(100vh - 60px); /* Ajuste a altura subtraindo a altura do seu Header */
+  display: flex;
+  justify-content: center;
+  padding: 30px 15px 50px;
+}
+
+.conteudo-principal {
+  width: 100%;
+  max-width: 900px; /* Largura máxima maior para dar mais espaço */
+  margin: 0 auto;
+  background: white;
+  padding: 30px;
+  border-radius: 4px; /* Bordas mais sutis */
+  box-shadow: var(--sombra-leve);
+}
+
+/* ---------------------------------- */
+/* Título */
+/* ---------------------------------- */
+h1 {
+  font-size: 1.8rem;
+  font-weight: 400; /* Título mais leve, como o "Produtos" da imagem */
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--cor-principal);
+  border-bottom: 1px solid var(--cor-borda);
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+}
+
+/* ---------------------------------- */
+/* Lista de Itens */
+/* ---------------------------------- */
+.lista-itens {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.item-carrinho {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin: 10px 0;
+  justify-content: space-between;
+  border: none; /* Remove a borda para um visual mais limpo */
+  border-bottom: 1px solid #eee; /* Linha divisória sutil */
+  padding: 15px 0; /* Padding vertical */
 }
 
-.quantidade-controle button {
-  background-color: #000;
-  color: #fff;
+.imagem-produto {
+  width: 100px;
+  height: 100px;
+  object-fit: contain; /* Usa contain para itens como bonecos/carros */
+  border-radius: 0; /* Remove border-radius */
   border: none;
-  padding: 4px 8px;
-  cursor: pointer;
-  border-radius: 4px;
 }
 
-.resumo-carrinho {
+.info-produto {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.info-produto h2 {
+  font-size: 1.1rem;
+  color: var(--cor-principal);
+  font-weight: 500;
+  margin: 0 0 5px;
+}
+
+.preco {
+  color: var(--cor-preco);
+  font-weight: bold;
+  font-size: 1.15rem;
+  margin: 8px 0;
+}
+
+.opcoes {
+  font-size: 0.85rem;
+  color: var(--cor-secundaria);
+}
+
+.acoes {
+  display: flex;
+  align-items: center; 
+  gap: 25px;
+  min-width: 150px;
+}
+
+.quantidade {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--cor-borda);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.quantidade button {
+  background: #fff;
+  border: none;
+  padding: 6px 12px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--cor-principal);
+  transition: background 0.2s;
+}
+
+.quantidade button:hover {
+  background: #f0f0f0;
+}
+
+.quantidade span {
+  padding: 6px 10px;
+  font-size: 1rem;
+  border-left: 1px solid var(--cor-borda);
+  border-right: 1px solid var(--cor-borda);
+}
+
+.remover {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--cor-secundaria);
+  text-decoration: underline;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
+}
+
+.remover:hover {
+  color: #ff0000;
+  text-decoration: none;
+}
+
+.resumo {
+  border-top: 2px solid var(--cor-borda);
   margin-top: 30px;
-  text-align: right;
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.resumo p strong {
+  font-size: 1.4rem;
+  color: var(--cor-preco);
+}
+
+.finalizar {
+ 
+  background-color: var(--cor-botao-principal);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: background 0.3s;
+}
+
+.finalizar:hover {
+  background-color: var(--cor-botao-hover);
+}
+
+
+@media (max-width: 650px) {
+  .item-carrinho {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .info-produto {
+    margin-left: 0;
+  }
+
+  .acoes {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+.botao-remover {
+  background-color: #ff4757;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.botao-remover:hover {
+  background-color: #ff3742;
 }

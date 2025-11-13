@@ -13,9 +13,33 @@ interface Produto {
   categoria: string;
 }
 
-export default function AdminPage() {
+interface RankingItem {
+  nome: string;
+  quantidade: number;
+}
+
+interface CarrinhoItem {
+  produto?: {
+    nome: string;
+  };
+  quantidade: number;
+}
+
+interface Carrinho {
+  usuario?: {
+    nome: string;
+  };
+  itens: CarrinhoItem[];
+  total?: number;
+}
+
+export default function Admin() {
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [usuariosCount, setUsuariosCount] = useState<number>(0);
+  const [usuariosComCarrinho, setUsuariosComCarrinho] = useState<number>(0);
+  const [somaTotalCarrinhos, setSomaTotalCarrinhos] = useState<number>(0);
+  const [rankingProdutos, setRankingProdutos] = useState<RankingItem[]>([]);
+  const [carrinhos, setCarrinhos] = useState<Carrinho[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState<string | null>(null);
   const [produtoEditando, setProdutoEditando] = useState<Produto | null>(null);
@@ -30,7 +54,6 @@ export default function AdminPage() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
-  // 🔹 Carrega dados iniciais
   useEffect(() => {
     if (!token) {
       alert("Você precisa estar logado para acessar o painel administrativo.");
@@ -40,13 +63,19 @@ export default function AdminPage() {
 
     async function carregarDados() {
       try {
-        const [respProdutos, respUsuarios] = await Promise.all([
-          api.get("/produtos", { headers: { Authorization: `Bearer ${token}` } }),
-          api.get("/usuarios", { headers: { Authorization: `Bearer ${token}` } }),
+        const [respProdutos, respUsuarios, respEstatisticas, respCarrinhos] = await Promise.all([
+          api.get("/produtos"),
+          api.get("/usuarios"),
+          api.get("/admin/estatisticas"),
+          api.get("/admin/carrinhos") 
         ]);
 
         setProdutos(respProdutos.data);
         setUsuariosCount(respUsuarios.data.length);
+        setUsuariosComCarrinho(respEstatisticas.data.usuariosComCarrinho);
+        setSomaTotalCarrinhos(respEstatisticas.data.somaTotalCarrinhos);
+        setRankingProdutos(respEstatisticas.data.rankingProdutos);
+        setCarrinhos(respCarrinhos.data); 
       } catch (err: any) {
         console.error(err);
         setErro("Falha ao carregar informações. Verifique suas permissões.");
@@ -58,44 +87,24 @@ export default function AdminPage() {
     carregarDados();
   }, [token, navigate]);
 
-  // 🔹 Adicionar produto (nova função)
   async function adicionarProduto(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
-    if (!token) {
-      alert("Você precisa estar logado como administrador para adicionar produtos.");
-      navigate("/login");
-      return;
-    }
-
     try {
-      const resposta = await api.post("/produtos", novoProduto, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
+      const resposta = await api.post("/produtos", novoProduto);
       setProdutos([...produtos, resposta.data]);
       setNovoProduto({ nome: "", preco: 0, descricao: "", urlfoto: "", categoria: "" });
-      alert("✅ Produto adicionado com sucesso!");
+      alert(" Produto adicionado com sucesso!");
     } catch (error: any) {
       console.error(error);
-      alert("❌ Erro ao adicionar produto. Verifique se você tem permissão.");
+      alert(" Erro ao adicionar produto. Verifique se você tem permissão.");
     }
   }
 
-  // 🔹 Excluir produto
   async function excluirProduto(id: string) {
-    if (!token) {
-      alert("Você precisa estar logado para excluir produtos.");
-      navigate("/login");
-      return;
-    }
-
     if (!window.confirm("Tem certeza que deseja excluir este produto?")) return;
 
     try {
-      await api.delete(`/produtos/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await api.delete(`/produtos/${id}`);
       setProdutos(produtos.filter((p) => p._id !== id));
       alert("Produto excluído com sucesso!");
     } catch (error: any) {
@@ -104,33 +113,16 @@ export default function AdminPage() {
     }
   }
 
-  // 🔹 Editar produto
   function iniciarEdicao(produto: Produto) {
-    if (!token) {
-      alert("Você precisa estar logado para editar produtos.");
-      navigate("/login");
-      return;
-    }
-
     setProdutoEditando({ ...produto });
   }
 
-  // 🔹 Salvar edição
   async function salvarEdicao(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!produtoEditando) return;
 
-    if (!token) {
-      alert("Você precisa estar logado para salvar alterações.");
-      navigate("/login");
-      return;
-    }
-
     try {
-      await api.put(`/produtos/${produtoEditando._id}`, produtoEditando, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
+      await api.put(`/produtos/${produtoEditando._id}`, produtoEditando);
       setProdutos((produtosAnteriores) =>
         produtosAnteriores.map((p) =>
           p._id === produtoEditando._id ? produtoEditando : p
@@ -160,7 +152,6 @@ export default function AdminPage() {
 
           {!carregando && !erro && (
             <>
-              {/* 🔹 Resumo */}
               <section className="resumo-admin">
                 <div className="card-info">
                   <h2>Usuários cadastrados</h2>
@@ -170,9 +161,28 @@ export default function AdminPage() {
                   <h2>Produtos cadastrados</h2>
                   <p>{produtos.length}</p>
                 </div>
+                <div className="card-info destaque">
+                  <h2>Usuários com carrinho</h2>
+                  <p>{usuariosComCarrinho}</p>
+                </div>
+                <div className="card-info destaque">
+                  <h2>Total vendido</h2>
+                  <p>R$ {somaTotalCarrinhos.toFixed(2)}</p>
+                </div>
               </section>
 
-              {/* 🔹 Formulário para adicionar novo produto */}
+              <section className="ranking-produtos">
+                <h2>Top Produtos Mais Vendidos</h2>
+                <ul>
+                  {rankingProdutos.map((item, index) => (
+                    <li key={index}>
+                      <span>{index + 1}º - {item.nome}</span>
+                      <strong>{item.quantidade} unid.</strong>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+
               <section className="adicionar-produto">
                 <h2>Adicionar Novo Produto</h2>
                 <form onSubmit={adicionarProduto} className="form-adicionar">
@@ -214,7 +224,6 @@ export default function AdminPage() {
                 </form>
               </section>
 
-              {/* 🔹 Lista de produtos existentes */}
               <h2>Gerenciar Produtos</h2>
               <div className="grid-produtos">
                 {produtos.map((produto) => (
@@ -225,12 +234,8 @@ export default function AdminPage() {
                           type="text"
                           value={produtoEditando.nome}
                           onChange={(e) =>
-                            setProdutoEditando({
-                              ...produtoEditando,
-                              nome: e.target.value,
-                            })
+                            setProdutoEditando({ ...produtoEditando, nome: e.target.value })
                           }
-                          placeholder="Nome"
                         />
                         <input
                           type="number"
@@ -241,39 +246,26 @@ export default function AdminPage() {
                               preco: parseFloat(e.target.value),
                             })
                           }
-                          placeholder="Preço"
                         />
                         <input
                           type="text"
                           value={produtoEditando.categoria}
                           onChange={(e) =>
-                            setProdutoEditando({
-                              ...produtoEditando,
-                              categoria: e.target.value,
-                            })
+                            setProdutoEditando({ ...produtoEditando, categoria: e.target.value })
                           }
-                          placeholder="Categoria"
                         />
                         <textarea
                           value={produtoEditando.descricao}
                           onChange={(e) =>
-                            setProdutoEditando({
-                              ...produtoEditando,
-                              descricao: e.target.value,
-                            })
+                            setProdutoEditando({ ...produtoEditando, descricao: e.target.value })
                           }
-                          placeholder="Descrição"
                         />
                         <input
                           type="text"
                           value={produtoEditando.urlfoto}
                           onChange={(e) =>
-                            setProdutoEditando({
-                              ...produtoEditando,
-                              urlfoto: e.target.value,
-                            })
+                            setProdutoEditando({ ...produtoEditando, urlfoto: e.target.value })
                           }
-                          placeholder="URL da imagem"
                         />
                         <div className="botoes-edicao">
                           <button type="submit">Salvar</button>
@@ -297,7 +289,6 @@ export default function AdminPage() {
                           <p>R$ {produto.preco.toFixed(2)}</p>
                           <p>{produto.categoria}</p>
                           <p className="descricao">{produto.descricao}</p>
-
                           <div className="botoes-admin">
                             <button className="editar" onClick={() => iniciarEdicao(produto)}>
                               Editar
@@ -312,6 +303,39 @@ export default function AdminPage() {
                   </div>
                 ))}
               </div>
+
+              {/* 🔹 Tabela de carrinhos - CORRIGIDA */}
+              <section className="tabela-carrinhos">
+                <h2>Carrinhos Criados</h2>
+                {carrinhos.length === 0 ? (
+                  <p>Nenhum carrinho encontrado.</p>
+                ) : (
+                  <table className="tabela-limpa">
+                    <thead>
+                      <tr>
+                        <th>Usuário</th>
+                        <th>Itens</th>
+                        <th>Total (R$)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {carrinhos.map((carrinho, index) => (
+                        <tr key={index}>
+                          <td>{carrinho.usuario?.nome || "Usuário desconhecido"}</td>
+                          <td>
+                            {carrinho.itens
+                              .map((item) => 
+                                `${item.produto?.nome || "Produto não encontrado"} (${item.quantidade} unid.)`
+                              )
+                              .join(", ")}
+                          </td>
+                          <td>{(carrinho.total || 0).toFixed(2)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </section>
             </>
           )}
         </main>
