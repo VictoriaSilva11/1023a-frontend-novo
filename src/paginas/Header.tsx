@@ -24,11 +24,7 @@ export default function Header() {
           <li><Link to="/login">Login</Link></li>
           <li><Link to="/produtos">Produtos</Link></li>
           <li><Link to="/carrinho">Carrinho</Link></li>
-          <li><Link to="/adm">Administrador</Link></li>
-        </ul>
-      </nav>
-
-      {/* ---- Usuário no canto direito ---- */}
+          <li> {}
       <div className="usuario-info">
         {usuario ? (
           <>
@@ -39,7 +35,11 @@ export default function Header() {
         ) : (
           <span className="usuario-nome">Visitante</span>
         )}
-      </div>
+      </div></li>
+          <li><Link to="/adm">Administrador</Link></li>
+        </ul>
+      </nav>
+
 
     </header>
   );

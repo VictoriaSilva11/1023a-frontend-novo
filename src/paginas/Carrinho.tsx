@@ -77,7 +77,7 @@ export default function Carrinho() {
         data: { produtoId, usuarioId: carrinho?.usuarioId },
       });
 
-      // Verifica se o carrinho ficou vazio ou se os itens foram atualizados
+      
       const novoCarrinho = resposta.data && resposta.data.itens && resposta.data.itens.length > 0 ? resposta.data : null;
       setCarrinho(novoCarrinho);
 
@@ -88,7 +88,7 @@ export default function Carrinho() {
       alert(`Falha ao remover ${nomeItem}. Por favor, tente novamente.`);
     }
   }
-  //limpar carrinho inteiro
+ 
   async function limparCarrinhoInteiro() {
     if (!carrinho || carrinho.itens.length === 0) return;
 
@@ -97,12 +97,11 @@ export default function Carrinho() {
     }
 
     try {
-      const token = localStorage.getItem('token'); //armazena no token
+      const token = localStorage.getItem('token');
       await api.delete('/carrinho/limpar', {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      // Isso faz o carrinho ficar vazio e mostrar a mensagem
       setCarrinho(null);
       alert('Carrinho limpo com sucesso!');
 
@@ -161,7 +160,6 @@ export default function Carrinho() {
                 <p>Total: <strong>R$ {carrinho.total.toFixed(2)}</strong></p>
                 <button className="finalizar">Finalizar Compra</button>
               </div>
-              // No lugar da seção .resumo, substitua por:
               <div className="resumo">
                 <p>Total: <strong>R$ {carrinho.total.toFixed(2)}</strong></p>
 

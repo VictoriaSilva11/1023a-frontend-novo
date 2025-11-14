@@ -103,17 +103,17 @@ body {
 
   .logo-imagem {
     height: 60px;
-    /* Tamanho original da imagem da logo */
+   
   }
 
   .navegacao ul {
     gap: 32px;
-    /* Espaçamento original dos links */
+    
   }
 
   .navegacao a {
     font-size: 16px;
-    /* Tamanho original da fonte do link */
+    
   }
 
   body {
@@ -157,20 +157,4 @@ body {
     display: block;
     padding: 5px 0;
   }
-}
-
-.usuario-info {
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: bold;
-  color: var(--cor-verde-escuro);
-}
-
-.icone-usuario {
-  font-size: 20px;
 }

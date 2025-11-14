@@ -64,23 +64,12 @@ export default function Home() {
       {!carregando && !erro && (
         <>
           {/* HERO */}
-          <section className="hero-section">
-            <div className="hero-content">
-              <h1>Bem-vindo ao GEEK.HUB</h1>
-              <p>Descubra produtos épicos para sua coleção geek.</p>
-
-              <button className="cta-button" onClick={irParaProdutos}>
-                Ver Todos os Produtos
-              </button>
-            </div>
-
-            <div className="hero-image">
+          <div className="hero-image">
               <img
                 src="https://cdn.cosmos.so/a09b262e-4a7c-4982-8631-ca4a5f16eee1?format=jpeg"
                 alt="Geek.Hub"
               />
             </div>
-          </section>
 
           {/* Destaques */}
           <section className="destaque-section">

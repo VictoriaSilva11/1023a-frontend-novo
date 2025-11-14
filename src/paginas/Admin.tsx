@@ -17,20 +17,17 @@ interface RankingItem {
   nome: string;
   quantidade: number;
 }
-
 interface CarrinhoItem {
-  produto?: {
-    nome: string;
-  };
+  nome: string;
+  preco: number;
   quantidade: number;
 }
 
 interface Carrinho {
-  usuario?: {
-    nome: string;
-  };
+  usuarioId: string;
+  nomeUsuario?: string;
   itens: CarrinhoItem[];
-  total?: number;
+  total: number;
 }
 
 export default function Admin() {
