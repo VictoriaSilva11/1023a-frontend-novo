@@ -34,6 +34,7 @@ interface Carrinho {
 }
 
 export default function Admin() {
+  const [usuarios, setUsuarios] = useState<any[]>([]);
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [usuariosCount, setUsuariosCount] = useState<number>(0);
   const [usuariosComCarrinho, setUsuariosComCarrinho] = useState<number>(0);
@@ -67,15 +68,16 @@ export default function Admin() {
           api.get("/produtos"),
           api.get("/usuarios"),
           api.get("/admin/estatisticas"),
-          api.get("/admin/carrinhos") 
+          api.get("/admin/carrinhos")
         ]);
 
         setProdutos(respProdutos.data);
+        setUsuarios(respUsuarios.data);
         setUsuariosCount(respUsuarios.data.length);
         setUsuariosComCarrinho(respEstatisticas.data.usuariosComCarrinho);
         setSomaTotalCarrinhos(respEstatisticas.data.somaTotalCarrinhos);
         setRankingProdutos(respEstatisticas.data.rankingProdutos);
-        setCarrinhos(respCarrinhos.data); 
+        setCarrinhos(respCarrinhos.data);
       } catch (err: any) {
         console.error(err);
         setErro("Falha ao carregar informações. Verifique suas permissões.");
@@ -112,6 +114,23 @@ export default function Admin() {
       alert("Erro ao excluir produto.");
     }
   }
+
+  async function excluirUsuario(id: string) {
+    if (!window.confirm("Tem certeza que deseja excluir este usuário?")) return;
+
+    try {
+      await api.delete(`/usuarios/${id}`);
+
+      setUsuarios((antes) => antes.filter((u) => u._id !== id));
+      setUsuariosCount((count) => count - 1);
+
+      alert("Usuário excluído com sucesso!");
+    } catch (error) {
+      console.error(error);
+      alert("Erro ao excluir usuário.");
+    }
+  }
+
 
   function iniciarEdicao(produto: Produto) {
     setProdutoEditando({ ...produto });
@@ -280,8 +299,8 @@ export default function Admin() {
                           src={produto.urlfoto}
                           alt={produto.nome}
                           onError={(e) =>
-                            (e.currentTarget.src =
-                              "https://via.placeholder.com/260x200?text=Sem+Imagem")
+                          (e.currentTarget.src =
+                            "https://via.placeholder.com/260x200?text=Sem+Imagem")
                           }
                         />
                         <div className="info">
@@ -304,9 +323,10 @@ export default function Admin() {
                 ))}
               </div>
 
-              {/* 🔹 Tabela de carrinhos - CORRIGIDA */}
+              { }
               <section className="tabela-carrinhos">
                 <h2>Carrinhos Criados</h2>
+
                 {carrinhos.length === 0 ? (
                   <p>Nenhum carrinho encontrado.</p>
                 ) : (
@@ -318,24 +338,59 @@ export default function Admin() {
                         <th>Total (R$)</th>
                       </tr>
                     </thead>
+
                     <tbody>
                       {carrinhos.map((carrinho, index) => (
                         <tr key={index}>
-                          <td>{carrinho.usuario?.nome || "Usuário desconhecido"}</td>
+
+                          { }
+                          <td>{carrinho.nomeUsuario || "Usuário desconhecido"}</td>
+
                           <td>
                             {carrinho.itens
-                              .map((item) => 
-                                `${item.produto?.nome || "Produto não encontrado"} (${item.quantidade} unid.)`
+                              .map((item) =>
+                                `${item.nome || "Produto não encontrado"} (${item.quantidade} unid.)`
                               )
                               .join(", ")}
                           </td>
+
                           <td>{(carrinho.total || 0).toFixed(2)}</td>
+
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 )}
               </section>
+              <section className="lista-usuarios">
+                <h2>Usuários</h2>
+
+                <table className="tabela-limpa">
+                  <thead>
+                    <tr>
+                      <th>Nome</th>
+                      <th>Email</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {usuarios.map((u: any) => (
+                      <tr key={u._id}>
+                        <td>{u.nome}</td>
+                        <td>{u.email}</td>
+                        <td>
+                          <button className="excluir" onClick={() => excluirUsuario(u._id)}>
+                            Excluir
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </section>
+
+
             </>
           )}
         </main>

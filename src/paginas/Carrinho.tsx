@@ -88,6 +88,28 @@ export default function Carrinho() {
       alert(`Falha ao remover ${nomeItem}. Por favor, tente novamente.`);
     }
   }
+  //limpar carrinho inteiro
+  async function limparCarrinhoInteiro() {
+    if (!carrinho || carrinho.itens.length === 0) return;
+
+    if (!window.confirm('Tem certeza que deseja limpar todo o carrinho?')) { //mensagem  de erro
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token'); //armazena no token
+      await api.delete('/carrinho/limpar', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      // Isso faz o carrinho ficar vazio e mostrar a mensagem
+      setCarrinho(null);
+      alert('Carrinho limpo com sucesso!');
+
+    } catch (error) {
+      alert('Erro ao limpar carrinho');
+    }
+  }
 
   if (carregando) return <p>Carregando carrinho...</p>;
 
@@ -139,10 +161,27 @@ export default function Carrinho() {
                 <p>Total: <strong>R$ {carrinho.total.toFixed(2)}</strong></p>
                 <button className="finalizar">Finalizar Compra</button>
               </div>
+              // No lugar da seção .resumo, substitua por:
+              <div className="resumo">
+                <p>Total: <strong>R$ {carrinho.total.toFixed(2)}</strong></p>
+
+                <div className="botoes-acao">
+                  <button
+                    className="limpar-carrinho"
+                    onClick={limparCarrinhoInteiro}
+                  >
+                    🗑️ Limpar Carrinho inteiro
+                  </button>
+
+                  <button className="finalizar">
+                    Finalizar Compra
+                  </button>
+                </div>
+              </div>
             </>
           )}
         </main>
       </div>
     </>
   );
-}
+} 

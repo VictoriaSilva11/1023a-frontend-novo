@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 function logout() {
     const navigate = useNavigate();
 
-    useEffect(() => {
+    useEffect(() => { // limpa dados de autenticação
         localStorage.removeItem("token");
         localStorage.removeItem("tipoUsuario");
         navigate("/login?mensagem=Logout realizado com sucesso");

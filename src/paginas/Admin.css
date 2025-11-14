@@ -14,7 +14,7 @@
   --fonte-corpo: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
-/* LAYOUT PRINCIPAL */
+
 .pagina-admin {
   min-height: 100vh;
   background: var(--cor-cinza-claro);
@@ -31,7 +31,7 @@
   overflow: hidden;
 }
 
-/* CABEÇALHO DO PAINEL */
+
 .conteudo-principal h1 {
   text-align: center;
   color: var(--cor-primaria);
@@ -133,8 +133,6 @@
   color: var(--cor-sucesso);
   font-size: 0.9rem;
 }
-
-/* FORMULÁRIO DE ADICIONAR PRODUTO */
 .adicionar-produto {
   padding: 25px 30px;
   background: var(--cor-branco);
