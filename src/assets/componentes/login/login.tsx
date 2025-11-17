@@ -13,7 +13,7 @@ function Login() {
         const email = formData.get("email");
         const senha = formData.get("senha");
 
-        api.post("/login", { email, senha })
+        api.post("/login", { email, senha }) //pega o email e senha
             .then((response) => {
                 if (response.status === 200) {
                     localStorage.setItem("token", response.data.token); //salva no token

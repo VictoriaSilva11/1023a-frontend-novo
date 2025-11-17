@@ -44,7 +44,7 @@
   width: 100%;
 }
 
-/* SEÇÃO DE RESUMO - ESTILO DA IMAGEM */
+
 .resumo-admin {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -92,7 +92,7 @@
   color: var(--cor-sucesso);
 }
 
-/* RANKING DE PRODUTOS */
+
 .ranking-produtos {
   padding: 25px 30px;
   background: var(--cor-branco);
@@ -193,7 +193,7 @@
   background: #2980b9;
 }
 
-/* LISTA DE PRODUTOS */
+
 .conteudo-principal > h2 {
   padding: 25px 30px 15px;
   color: var(--cor-primaria);

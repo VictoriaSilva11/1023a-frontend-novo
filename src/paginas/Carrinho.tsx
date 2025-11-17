@@ -126,7 +126,7 @@ export default function Carrinho() {
               <div className="lista-itens">
                 {carrinho.itens.map((item) => (
                   <div key={item.produtoId} className="item-carrinho">
-                    {/* iNFORMAÇÕES DO PRODUTO REFEITAS AQUI */}
+                    {}
                     <img
                       src={item.imagem || '/sem-imagem.png'}
                       alt={item.nome}

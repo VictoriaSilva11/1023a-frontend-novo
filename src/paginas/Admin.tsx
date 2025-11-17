@@ -299,7 +299,7 @@ export default function Admin() {
                           (e.currentTarget.src =
                             "https://via.placeholder.com/260x200?text=Sem+Imagem")
                           }
-                        />
+                        /> 
                         <div className="info">
                           <h3>{produto.nome}</h3>
                           <p>R$ {produto.preco.toFixed(2)}</p>

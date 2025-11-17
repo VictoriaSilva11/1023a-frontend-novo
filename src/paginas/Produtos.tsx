@@ -9,7 +9,6 @@ import Header from './Header';
 import './Produtos.css';
 
 
-
 interface Produto {
 
   _id: string;
@@ -87,9 +86,6 @@ export default function Produtos() {
       return;
 
     }
-
-
-
     try {
       await api.post("/carrinho/adicionar", { produtoId: produto._id, quantidade: 1 }, { headers: { Authorization: `Bearer ${token}` } });
       alert(`${produto.nome} foi adicionado ao carrinho!`);
@@ -102,8 +98,6 @@ export default function Produtos() {
     }
 
   }
-
-
 
   // filtro por categoria
 
