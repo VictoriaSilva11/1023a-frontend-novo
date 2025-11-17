@@ -50,14 +50,19 @@ export default function Admin() {
   });
 
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
     if (!token) {
       alert("Você precisa estar logado para acessar o painel administrativo.");
       navigate("/login");
       return;
     }
+
+    // --- CORREÇÃO PRINCIPAL: Configura o Token no Axios ---
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    // ------------------------------------------------------
 
     async function carregarDados() {
       try {
@@ -75,16 +80,28 @@ export default function Admin() {
         setSomaTotalCarrinhos(respEstatisticas.data.somaTotalCarrinhos);
         setRankingProdutos(respEstatisticas.data.rankingProdutos);
         setCarrinhos(respCarrinhos.data);
+        
       } catch (err: any) {
-        console.error(err);
-        setErro("Falha ao carregar informações. Verifique suas permissões.");
+        console.error("Erro detalhado:", err.response);
+        
+        // Tratamento de erro mais específico
+        if (err.response?.status === 403) {
+            setErro("ACESSO NEGADO: Seu usuário não tem permissão de Administrador (tipo: 'admin').");
+        } else if (err.response?.status === 401) {
+            setErro("Sessão expirada. Por favor, faça login novamente.");
+            // Opcional: forçar logout
+            // localStorage.removeItem("token");
+            // navigate("/login");
+        } else {
+            setErro("Falha ao carregar informações. Verifique se o servidor está rodando.");
+        }
       } finally {
         setCarregando(false);
       }
     }
 
     carregarDados();
-  }, [token, navigate]);
+  }, [navigate]);
 
   async function adicionarProduto(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -164,7 +181,7 @@ export default function Admin() {
           <h1>Painel Administrativo</h1>
 
           {carregando && <p>Carregando informações...</p>}
-          {erro && <p className="erro">{erro}</p>}
+          {erro && <p className="erro" style={{ color: 'red', fontWeight: 'bold' }}>{erro}</p>}
 
           {!carregando && !erro && (
             <>
@@ -320,7 +337,6 @@ export default function Admin() {
                 ))}
               </div>
 
-              { }
               <section className="tabela-carrinhos">
                 <h2>Carrinhos Criados</h2>
 
@@ -339,10 +355,7 @@ export default function Admin() {
                     <tbody>
                       {carrinhos.map((carrinho, index) => (
                         <tr key={index}>
-
-                          { }
                           <td>{carrinho.nomeUsuario || "Usuário desconhecido"}</td>
-
                           <td>
                             {carrinho.itens
                               .map((item) =>
@@ -350,9 +363,7 @@ export default function Admin() {
                               )
                               .join(", ")}
                           </td>
-
                           <td>{(carrinho.total || 0).toFixed(2)}</td>
-
                         </tr>
                       ))}
                     </tbody>
@@ -386,8 +397,6 @@ export default function Admin() {
                   </tbody>
                 </table>
               </section>
-
-
             </>
           )}
         </main>

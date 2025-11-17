@@ -160,8 +160,7 @@ export default function Carrinho() {
                 <p>Total: <strong>R$ {carrinho.total.toFixed(2)}</strong></p>
                 <button className="finalizar">Finalizar Compra</button>
               </div>
-              <div className="resumo">
-                <p>Total: <strong>R$ {carrinho.total.toFixed(2)}</strong></p>
+             
 
                 <div className="botoes-acao">
                   <button
@@ -170,12 +169,8 @@ export default function Carrinho() {
                   >
                     🗑️ Limpar Carrinho inteiro
                   </button>
-
-                  <button className="finalizar">
-                    Finalizar Compra
-                  </button>
                 </div>
-              </div>
+              
             </>
           )}
         </main>
