@@ -61,6 +61,7 @@ export default function Carrinho() {
     );
     setCarrinho(resposta.data);
   }
+  
 
   async function removerItem(produtoId: string) {
     const itemParaRemover = carrinho?.itens.find(item => item.produtoId === produtoId);
@@ -92,7 +93,7 @@ export default function Carrinho() {
   async function limparCarrinhoInteiro() {
     if (!carrinho || carrinho.itens.length === 0) return;
 
-    if (!window.confirm('Tem certeza que deseja limpar todo o carrinho?')) { //mensagem  de erro
+    if (!window.confirm('Tem certeza que deseja limpar todo o carrinho?')) { 
       return;
     }
 
@@ -158,7 +159,9 @@ export default function Carrinho() {
 
               <div className="resumo">
                 <p>Total: <strong>R$ {carrinho.total.toFixed(2)}</strong></p>
-                <button className="finalizar">Finalizar Compra</button>
+               <button
+                      className="finalizar"
+                       onClick={() => navigate("/pagar")}> Finalizar Compra</button>
               </div>
              
 
