@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/api';
-import Header from './Header';
+import Header from './Header.tsx';
 import './Home.css';
-
 interface Produto {
   _id: string;
   nome: string;
