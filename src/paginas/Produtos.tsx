@@ -165,8 +165,6 @@ export default function Produtos() {
 
                 <p>Nenhum produto encontrado para essa categoria.</p>
 
-              )}
-
 
 
               <div className="grid-produtos">

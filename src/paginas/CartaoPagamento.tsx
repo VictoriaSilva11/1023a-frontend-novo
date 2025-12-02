@@ -1,6 +1,7 @@
 import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from "@stripe/react-stripe-js";
 import { useState } from "react";
 import api from "../api/api";
+import "./Pagamento.css";
 
 export default function CartaoPagamento() {
   const stripe = useStripe();
@@ -33,7 +34,7 @@ export default function CartaoPagamento() {
   };
 
   return (
-    <div>
+    <div className="card">
       <h1>Pagamento com Cartão</h1>
 
       <label>Número do cartão</label>
