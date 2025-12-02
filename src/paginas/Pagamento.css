@@ -1,3 +1,73 @@
+/* CONTAINER GERAL */
+.pagamento-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    display: flex;
+    gap: 30px;
+    padding: 20px;
+}
+
+/* CAIXA DOS PRODUTOS */
+.produtos-box {
+    flex: 1;
+    background: #fff;
+    padding: 22px;
+    border-radius: 16px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
+}
+
+.produtos-box h2 {
+    color: #3b003b;
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+/* ITEM DO PRODUTO */
+.produto-item {
+    display: flex;
+    gap: 14px;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.produto-item img {
+    width: 70px;
+    height: 70px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.produto-item h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #3b003b;
+}
+
+.produto-item p {
+    margin: 2px 0;
+    color: #333;
+}
+
+.vazio {
+    text-align: center;
+    padding: 16px;
+}
+
+/* FORM DE PAGAMENTO */
+.form-box {
+    flex: 1;
+}
+
+/* Cartão Stripe */
+.card {
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 24px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+}
+
 /* Título */
 h1 {
     text-align: center;
@@ -16,20 +86,18 @@ label {
     color: #3b003b;
 }
 
-/* Estilo padrão dos elementos Stripe */
+/* Stripe elements */
 .StripeElement {
     padding: 12px;
-    background: #2b2b3d;
+    background: #f4f4f4;
     border-radius: 10px;
-    border: 1px solid #ffffff;
+    border: 1px solid #3b003b;
     margin-bottom: 12px;
     transition: border 0.2s ease;
 }
 
-/* Quando em foco */
 .StripeElement--focus {
-    border-color: #3b003b;
-    /* tom azul/violeta */
+    border-color: #640064;
 }
 
 /* Botão */
@@ -46,12 +114,10 @@ button {
     transition: background 0.25s ease;
 }
 
-/* Hover */
 button:hover {
-    background: rgb(4, 131, 31);
+    background: #04831f;
 }
 
-/* Disabled */
 button:disabled {
     background: #3b003b;
     cursor: not-allowed;
@@ -64,11 +130,13 @@ p {
     color: #3b003b;
 }
 
-.card {
-    max-width: 420px;
-    margin: 40px auto;
-    padding: 24px;
-    background: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+/* RESPONSIVIDADE */
+@media (max-width: 850px) {
+    .pagamento-container {
+        flex-direction: column;
+    }
+
+    .form-box {
+        margin-top: 20px;
+    }
 }

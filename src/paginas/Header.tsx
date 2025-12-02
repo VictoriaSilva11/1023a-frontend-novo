@@ -24,23 +24,23 @@ export default function Header() {
           <li><Link to="/login">Login</Link></li>
           <li><Link to="/produtos">Produtos</Link></li>
           <li><Link to="/carrinho">Carrinho</Link></li>
-          <li><Link to="/logout">Logout</Link></li>
-          <li> {}
-      <div className="usuario-info">
-        {usuario ? (
-          <>
-            <span className="icone-usuario">👤</span>
-            <span className="usuario-nome">{usuario.nome}</span>
-            <span className="usuario-tipo">({usuario.tipo})</span>
-          </>
-        ) : (
-          <span className="usuario-nome">Visitante</span>
-        )}
-      </div></li>
+          <li> { }
+            <div className="usuario-info">
+              {usuario ? (
+                <>
+                  <span className="icone-usuario">👤</span>
+                  <span className="usuario-nome">{usuario.nome}</span>
+                  <span className="usuario-tipo">({usuario.tipo})</span>
+                </>
+              ) : (
+                <span className="usuario-nome">Visitante</span>
+              )}
+            </div></li>
           <li><Link to="/adm">Administrador</Link></li>
+          <li><Link to="/logout">Logout</Link></li>
         </ul>
+        
       </nav>
-
 
     </header>
   );

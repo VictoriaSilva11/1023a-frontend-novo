@@ -1,4 +1,4 @@
-import { StrictMode } from 'react';
+import { StrictMode, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import Login from './assets/componentes/login/login.tsx';
@@ -8,6 +8,21 @@ import Home from './paginas/Home.tsx';
 import Admin from './paginas/Admin.tsx';
 import Carrinhos from './paginas/Carrinho.tsx';
 import FinalizarCompra from './paginas/FinalizarCompra.tsx';
+const Logout = () => {
+  useEffect(() => {
+    try {
+      // clear stored auth/token (adjust key name to your app)
+      localStorage.removeItem('token');
+    } catch (e) {
+      // ignore
+    }
+    // redirect to login page
+    window.location.href = '/login';
+  }, []);
+
+  return null;
+};
+
 
 // IMPORTS DO STRIPE
 import { loadStripe } from "@stripe/stripe-js";
@@ -26,6 +41,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/carrinho" element={<Carrinhos />} />
         <Route path="/adm" element={<Admin />} />
         <Route path="/pagar" element={<FinalizarCompra />} />
+        <Route path="/logout" element={<Logout />} />
 
         {/* ROTA DO PAGAMENTO ENVOLVIDA COM <Elements> */}
         <Route
@@ -36,7 +52,10 @@ createRoot(document.getElementById('root')!).render(
             </Elements>
           }
         />
+        
       </Routes>
+      
     </BrowserRouter>
+    
   </StrictMode>
 );

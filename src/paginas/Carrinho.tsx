@@ -4,180 +4,259 @@ import api from '../api/api';
 import Header from './Header';
 import './Carrinho.css';
 
+interface Filtros {
+    nome: string;
+    minPreco: string;
+    maxPreco: string;
+    minQuantidade: string;
+}
+
 interface ItemCarrinho {
-  produtoId: string;
-  nome: string;
-  quantidade: number;
-  precoUnitario: number;
-  imagem?: string;
-  tamanho?: string;
-  cor?: string;
+    produtoId: string;
+    nome: string;
+    quantidade: number;
+    precoUnitario: number;
+    urlfoto?: string;
+    tamanho?: string;
+    cor?: string;
 }
 
 interface Carrinho {
-  _id?: string;
-  usuarioId: string;
-  itens: ItemCarrinho[];
-  total: number;
-  dataAtualizacao: string;
+    _id?: string;
+    usuarioId: string;
+    itens: ItemCarrinho[];
+    total: number;
+    dataAtualizacao: string;
+    totalFiltrado?: number;
 }
 
 export default function Carrinho() {
-  const [carrinho, setCarrinho] = useState<Carrinho | null>(null);
-  const [carregando, setCarregando] = useState(true);
-  const navigate = useNavigate();
+    const [carrinho, setCarrinho] = useState<Carrinho | null>(null);
+    const [carregando, setCarregando] = useState(true);
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    async function buscarCarrinho() {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        alert('Você precisa estar logado para acessar o carrinho.');
-        navigate('/login');
-        return;
-      }
+    const [filtros, setFiltros] = useState<Filtros>({
+        nome: '',
+        minPreco: '',
+        maxPreco: '',
+        minQuantidade: '',
+    });
 
-      try {
-        const resposta = await api.get('/carrinho/listar', {
-          headers: { Authorization: `Bearer ${token}` },
+    const handleFiltroChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFiltros({
+            ...filtros,
+            [e.target.name]: e.target.value,
         });
+    };
+
+    async function buscarCarrinho(filtrosAtivos: Filtros) {
+        setCarregando(true);
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            alert('Você precisa estar logado para acessar o carrinho.');
+            navigate('/login');
+            return;
+        }
+
+        const params = new URLSearchParams();
+        Object.entries(filtrosAtivos).forEach(([key, value]) => {
+            if (value) {
+                params.append(key, value);
+            }
+        });
+        const queryString = params.toString();
+        
+        const url = `/carrinho/listar?${queryString}`; 
+
+        try {
+            const resposta = await api.get(url, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            setCarrinho(resposta.data); 
+        } catch(e) {
+            setCarrinho(null); 
+        } finally {
+            setCarregando(false);
+        }
+    }
+
+    async function aplicarFiltro() {
+        buscarCarrinho(filtros);
+    }
+
+    useEffect(() => {
+        buscarCarrinho(filtros);
+    }, [navigate]);
+
+    async function atualizarQuantidade(produtoId: string, novaQuantidade: number) {
+        if (novaQuantidade < 1) return;
+        const token = localStorage.getItem('token');
+        const resposta = await api.put(
+            '/carrinho/atualizar',
+            { produtoId, usuarioId: carrinho?.usuarioId, quantidade: novaQuantidade },
+            { headers: { Authorization: `Bearer ${token}` } }
+        );
         setCarrinho(resposta.data);
-      } catch {
-        setCarrinho(null);
-      } finally {
-        setCarregando(false);
-      }
+        buscarCarrinho(filtros); 
+    }
+    
+    async function removerItem(produtoId: string) {
+        const itemParaRemover = carrinho?.itens.find(item => item.produtoId === produtoId);
+        const nomeItem = itemParaRemover ? itemParaRemover.nome : 'o item';
+
+        if (!window.confirm(`Tem certeza que deseja remover ${nomeItem} do carrinho?`)) {
+            return;
+        }
+
+        try {
+            const token = localStorage.getItem('token');
+            const resposta = await api.delete('/carrinho/removerItem', {
+                headers: { Authorization: `Bearer ${token}` },
+                data: { produtoId, usuarioId: carrinho?.usuarioId },
+            });
+
+            const novoCarrinho = resposta.data && resposta.data.itens && resposta.data.itens.length > 0 ? resposta.data : null;
+            setCarrinho(novoCarrinho);
+            if (novoCarrinho) {
+                buscarCarrinho(filtros);
+            }
+
+            alert(`${nomeItem} foi removido do carrinho com sucesso!`);
+
+        } catch (error) {
+            console.error('Erro ao remover item do carrinho:', error);
+            alert(`Falha ao remover ${nomeItem}. Por favor, tente novamente.`);
+        }
     }
 
-    buscarCarrinho();
-  }, [navigate]);
+    async function limparCarrinhoInteiro() {
+        if (!carrinho || carrinho.itens.length === 0) return;
 
-  async function atualizarQuantidade(produtoId: string, novaQuantidade: number) {
-    if (novaQuantidade < 1) return;
-    const token = localStorage.getItem('token');
-    const resposta = await api.put(
-      '/carrinho/atualizar',
-      { produtoId, usuarioId: carrinho?.usuarioId, quantidade: novaQuantidade },
-      { headers: { Authorization: `Bearer ${token}` } }
+        if (!window.confirm('Tem certeza que deseja limpar todo o carrinho?')) { 
+            return;
+        }
+
+        try {
+            const token = localStorage.getItem('token');
+            await api.delete('/carrinho/limpar', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            setCarrinho(null);
+            alert('Carrinho limpo com sucesso!');
+
+        } catch (error) {
+            alert('Erro ao limpar carrinho');
+        }
+    }
+
+    if (carregando) return <p>Carregando carrinho...</p>;
+
+    
+    return (
+        <>
+            <Header />
+            <div className="pagina-carrinho">
+                <main className="conteudo-principal">
+                    <h1>Meu Carrinho</h1>
+
+                    {!carrinho || carrinho.itens.length === 0 ? (
+                        <p className="carrinho-vazio">Seu carrinho está vazio.</p>
+                    ) : (
+                        <>
+                            <div className="painel-filtros">
+                                <h3>Filtrar Itens:</h3>
+                                <div className="campos-filtros">
+                                    <input
+                                        type="text"
+                                        name="nome"
+                                        placeholder="Nome do produto..."
+                                        value={filtros.nome}
+                                        onChange={handleFiltroChange}
+                                    />
+                                    <input
+                                        type="number"
+                                        name="minPreco"
+                                        placeholder="Preço Mínimo"
+                                        value={filtros.minPreco}
+                                        onChange={handleFiltroChange}
+                                    />
+                                    <input
+                                        type="number"
+                                        name="maxPreco"
+                                        placeholder="Preço Máximo"
+                                        value={filtros.maxPreco}
+                                        onChange={handleFiltroChange}
+                                    />
+                                    <input
+                                        type="number"
+                                        name="minQuantidade"
+                                        placeholder="Qtd. Minima"
+                                        value={filtros.minQuantidade}
+                                        onChange={handleFiltroChange}
+                                    />
+                                    <button className="botao-filtro" onClick={aplicarFiltro} disabled={carregando}>
+                                        {carregando ? 'Filtrando...' : 'Aplicar Filtros'}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="lista-itens">
+                                {carrinho.itens.map((item) => (
+                                    <div key={item.produtoId} className="item-carrinho">
+                                        <img
+                                            src={item.urlfoto || 'https://via.placeholder.com/100x100?text=Sem+Imagem'}
+                                            alt={item.nome}
+                                            className="imagem-produto"
+                                            onError={(e) => {
+                                                e.currentTarget.src = 'https://via.placeholder.com/100x100?text=Erro+Imagem';
+                                            }}
+                                        />
+
+                                        <div className="info-produto">
+                                            <h2>{item.nome}</h2>
+                                            <p className="preco">R$ {item.precoUnitario.toFixed(2)}</p>
+                                            <div className="opcoes">
+                                                {item.tamanho && <span>{item.tamanho}</span>}
+                                                {item.cor && <span>• {item.cor}</span>}
+                                            </div>
+                                        </div>
+
+                                        <div className="acoes">
+                                            <div className="quantidade">
+                                                <button onClick={() => atualizarQuantidade(item.produtoId, item.quantidade - 1)}>-</button>
+                                                <span>{item.quantidade}</span>
+                                                <button onClick={() => atualizarQuantidade(item.produtoId, item.quantidade + 1)}>+</button>
+                                            </div>
+                                            <button className="remover" onClick={() => removerItem(item.produtoId)}>
+                                                Remover
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="resumo">
+                                <p>Total Exibido: <strong>R$ {(carrinho.totalFiltrado ?? carrinho.total).toFixed(2)}</strong></p>
+                                <button
+                                    className="finalizar"
+                                    onClick={() => navigate("/pagar")}> Finalizar Compra</button>
+                            </div>
+                            
+                            <div className="botoes-acao">
+                                <button
+                                    className="limpar-carrinho"
+                                    onClick={limparCarrinhoInteiro}
+                                >
+                                Limpar Carrinho inteiro
+                                </button>
+                            </div>
+                            
+                        </>
+                    )}
+                </main>
+            </div>
+        </>
     );
-    setCarrinho(resposta.data);
-  }
-  
-
-  async function removerItem(produtoId: string) {
-    const itemParaRemover = carrinho?.itens.find(item => item.produtoId === produtoId);
-    const nomeItem = itemParaRemover ? itemParaRemover.nome : 'o item';
-
-    if (!window.confirm(`Tem certeza que deseja remover ${nomeItem} do carrinho?`)) {
-      return;
-    }
-
-    try {
-      const token = localStorage.getItem('token');
-      const resposta = await api.delete('/carrinho/removerItem', {
-        headers: { Authorization: `Bearer ${token}` },
-        data: { produtoId, usuarioId: carrinho?.usuarioId },
-      });
-
-      
-      const novoCarrinho = resposta.data && resposta.data.itens && resposta.data.itens.length > 0 ? resposta.data : null;
-      setCarrinho(novoCarrinho);
-
-      alert(`${nomeItem} foi removido do carrinho com sucesso!`);
-
-    } catch (error) {
-      console.error('Erro ao remover item do carrinho:', error);
-      alert(`Falha ao remover ${nomeItem}. Por favor, tente novamente.`);
-    }
-  }
- 
-  async function limparCarrinhoInteiro() {
-    if (!carrinho || carrinho.itens.length === 0) return;
-
-    if (!window.confirm('Tem certeza que deseja limpar todo o carrinho?')) { 
-      return;
-    }
-
-    try {
-      const token = localStorage.getItem('token');
-      await api.delete('/carrinho/limpar', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-
-      setCarrinho(null);
-      alert('Carrinho limpo com sucesso!');
-
-    } catch (error) {
-      alert('Erro ao limpar carrinho');
-    }
-  }
-
-  if (carregando) return <p>Carregando carrinho...</p>;
-
-  return (
-    <>
-      <Header />
-      <div className="pagina-carrinho">
-        <main className="conteudo-principal">
-          <h1>Meu Carrinho</h1>
-
-          {!carrinho || carrinho.itens.length === 0 ? (
-            <p className="carrinho-vazio">Seu carrinho esta vazio.</p>
-          ) : (
-            <>
-              <div className="lista-itens">
-                {carrinho.itens.map((item) => (
-                  <div key={item.produtoId} className="item-carrinho">
-                    {}
-                    <img
-                      src={item.imagem || '/sem-imagem.png'}
-                      alt={item.nome}
-                      className="imagem-produto"
-                    />
-
-                    <div className="info-produto">
-                      <h2>{item.nome}</h2>
-                      <p className="preco">R${item.precoUnitario.toFixed(2)}</p>
-                      <div className="opcoes">
-                        {item.tamanho && <span>{item.tamanho}</span>}
-                        {item.cor && <span>• {item.cor}</span>}
-                      </div>
-                    </div>
-
-                    <div className="acoes">
-                      <div className="quantidade">
-                        <button onClick={() => atualizarQuantidade(item.produtoId, item.quantidade - 1)}>-</button>
-                        <span>{item.quantidade}</span>
-                        <button onClick={() => atualizarQuantidade(item.produtoId, item.quantidade + 1)}>+</button>
-                      </div>
-                      <button className="remover" onClick={() => removerItem(item.produtoId)}>
-                        Remover
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="resumo">
-                <p>Total: <strong>R$ {carrinho.total.toFixed(2)}</strong></p>
-               <button
-                      className="finalizar"
-                       onClick={() => navigate("/pagar")}> Finalizar Compra</button>
-              </div>
-             
-
-                <div className="botoes-acao">
-                  <button
-                    className="limpar-carrinho"
-                    onClick={limparCarrinhoInteiro}
-                  >
-                    🗑️ Limpar Carrinho inteiro
-                  </button>
-                </div>
-              
-            </>
-          )}
-        </main>
-      </div>
-    </>
-  );
-} 
+}

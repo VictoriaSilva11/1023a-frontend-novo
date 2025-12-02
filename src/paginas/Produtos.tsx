@@ -162,62 +162,37 @@ export default function Produtos() {
 
 
               {produtosFiltrados.length === 0 && (
-
                 <p>Nenhum produto encontrado para essa categoria.</p>
+              )}
 
-
-
+              {produtosFiltrados.length > 0 && (
               <div className="grid-produtos">
-
                 {produtosFiltrados.map((produto) => (
-
                   <div key={produto._id} className="card-produto">
-
                     <img
-
                       src={produto.urlfoto}
-
                       alt={produto.nome}
-
                       onError={(e) =>
-
                       (e.currentTarget.src =
-
                         'https://via.placeholder.com/260x200?text=Sem+Imagem')
-
                       }
-
                     />
-
                     <div className="info">
-
                       <h2>{produto.nome}</h2>
-
                       <p className="descricao">{produto.descricao}</p>
-
                       <p className="categoria">Categoria: {produto.categoria}</p>
-
                       <p className="preco">R$ {produto.preco.toFixed(2)}</p>
-
                       <button
-
                         className="botao-carrinho"
-
                         onClick={() => adicionarAoCarrinho(produto)}
-
                       >
-
                         Adicionar ao carrinho
-
                       </button>
-
                     </div>
-
                   </div>
-
                 ))}
-
               </div>
+              )}
 
             </>
 
